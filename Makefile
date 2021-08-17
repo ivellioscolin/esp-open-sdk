@@ -17,7 +17,7 @@ VENDOR_SDK = 2.1.0-18-g61248df
 
 
 TOP = $(PWD)
-SHELL = /bin/bash
+SHELL := $(shell which bash)
 PATCH = patch -b -N
 UNZIP = unzip -q -o
 VENDOR_SDK_ZIP = $(VENDOR_SDK_ZIP_$(VENDOR_SDK))
@@ -146,7 +146,7 @@ crosstool-NG/ct-ng: crosstool-NG/bootstrap
 
 _ct-ng:
 	./bootstrap
-	./configure --prefix=`pwd`
+	./configure --prefix=`pwd` --with-bash=$(SHELL)
 	$(MAKE) MAKELEVEL=0
 	$(MAKE) install MAKELEVEL=0
 
@@ -168,7 +168,7 @@ $(TOOLCHAIN)/xtensa-lx106-elf/sysroot/usr/lib/libhal.a: $(TOOLCHAIN)/bin/xtensa-
 
 _libhal:
 	autoreconf -i
-	PATH="$(TOOLCHAIN)/bin:$(PATH)" ./configure --host=xtensa-lx106-elf --prefix=$(TOOLCHAIN)/xtensa-lx106-elf/sysroot/usr
+	PATH="$(TOOLCHAIN)/bin:$(PATH)" ./configure --host=xtensa-lx106-elf --prefix=$(TOOLCHAIN)/xtensa-lx106-elf/sysroot/usr --with-bash=$(SHELL)
 	PATH="$(TOOLCHAIN)/bin:$(PATH)" $(MAKE)
 	PATH="$(TOOLCHAIN)/bin:$(PATH)" $(MAKE) install
 
